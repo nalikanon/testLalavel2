@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,3 +20,7 @@ Route::get('/2', function () {
 });
 
 Route::get('/user', [UserController::class, 'index']);
+
+Route::get('/machines', function () {
+    return DB::table('machines')->get();
+});
