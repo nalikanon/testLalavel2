@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
-
 
 class Machine extends Model
 {
-    
+    protected $table = 'machines';
+
+    protected $fillable = [
+        'machine_name',
+        'location'
+    ];
 }

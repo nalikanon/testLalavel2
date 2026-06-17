@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Machine;
 
 class MachineController extends Controller
 {
     public function index()
     {
-        $machines = DB::table('machines')->get();
+        $machines = Machine::all();
 
         return view('machines.index', compact('machines'));
     }
@@ -25,12 +26,12 @@ class MachineController extends Controller
 
     public function update(Request $request, $id)
     {
-        DB::table('machines')
-            ->where('id', $id)
-            ->update([
-                'machine_name' => $request->machine_name,
-                'location' => $request->location
-            ]);
+        $machine = Machine::find($id);
+
+        $machine->machine_name = $request->machine_name;
+        $machine->location = $request->location;
+
+        $machine->save();
 
         return redirect('/machines');
     }
@@ -41,7 +42,7 @@ class MachineController extends Controller
 
 public function store(Request $request)
 {
-    DB::table('machines')->insert([
+    Machine::create([
         'machine_name' => $request->machine_name,
         'location' => $request->location
     ]);
@@ -51,9 +52,7 @@ public function store(Request $request)
 
 public function destroy($id)
 {
-    DB::table('machines')
-        ->where('id', $id)
-        ->delete();
+    Machine::destroy($id);
 
     return redirect('/machines');
 }
