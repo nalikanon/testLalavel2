@@ -31,3 +31,28 @@ Route::get('/machines/{id}/edit', [MachineController::class, 'edit']);
 Route::post('/machines/{id}', [MachineController::class, 'update']);
 
 Route::post('/machines/{id}/delete', [MachineController::class, 'destroy']);
+
+Route::get(
+    '/machines/{id}/repairs',
+    [MachineController::class, 'repairHistory']
+);
+
+Route::get(
+    '/machines/{id}/repairs/create',
+    [MachineController::class, 'createRepair']
+);
+
+Route::post(
+    '/machines/{id}/repairs',
+    [MachineController::class, 'storeRepair']
+);
+
+Route::get(
+    '/repairs/{id}/edit',
+    [MachineController::class, 'editRepair']
+);
+
+Route::post(
+    '/repairs/{id}',
+    [MachineController::class, 'updateRepair']
+);

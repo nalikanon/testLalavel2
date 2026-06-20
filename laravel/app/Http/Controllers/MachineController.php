@@ -56,4 +56,73 @@ public function destroy($id)
 
     return redirect('/machines');
 }
+
+public function repairHistory($id)
+{
+    $machine = DB::table('machines')
+        ->where('id', $id)
+        ->first();
+
+    $repairs = DB::table('repair_requests')
+        ->where('machine_id', $id)
+        ->get();
+
+    return view(
+        'machines.repairs',
+        compact('machine', 'repairs')
+    );
+}
+
+public function createRepair($id)
+{
+    $machine = DB::table('machines')
+        ->where('id', $id)
+        ->first();
+
+    return view(
+        'machines.create-repair',
+        compact('machine')
+    );
+}
+
+public function storeRepair(Request $request, $id)
+{
+    DB::table('repair_requests')
+        ->insert([
+            'machine_id' => $id,
+            'issue' => $request->issue,
+            'status' => 'pending'
+        ]);
+
+    return redirect(
+        "/machines/$id/repairs"
+    );
+}
+
+public function editRepair($id)
+{
+    $repair = DB::table('repair_requests')
+        ->where('id', $id)
+        ->first();
+
+    return view(
+        'machines.edit-repair',
+        compact('repair')
+    );
+}
+
+public function updateRepair(Request $request, $id)
+{
+    $repair = DB::table('repair_requests')
+        ->where('id', $id)
+        ->first();
+
+    DB::table('repair_requests')
+        ->where('id', $id)
+        ->update([
+            'status' => $request->status
+        ]);
+
+    return redirect('/machines/' . $repair->machine_id . '/repairs');
+}
 }

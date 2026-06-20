@@ -26,6 +26,10 @@
         <td>{{ $machine->location }}</td>
         <td>
 
+    <a href="/machines/{{ $machine->id }}/repairs">
+        Repair History
+    </a> | 
+
     <a href="/machines/{{ $machine->id }}/edit">
         Edit
     </a>
